@@ -151,7 +151,7 @@ class _Login extends State {
         }else if (statusData == 0 ){
           globalKey.currentState.showSnackBar(snackBar);
         }
-          else{print('State error');}
+          else{print('error not have Username');}
 
       });
     });
