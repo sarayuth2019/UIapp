@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/main.dart';
 
-
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -12,7 +11,7 @@ class Profile extends StatefulWidget {
 
 class _Profile extends State {
   String imageProfile =
-      "https://scontent.fkkc2-1.fna.fbcdn.net/v/t1.0-9/s960x960/92014565_2991956970872911_1636431682791800832_o.jpg?_nc_cat=105&_nc_sid=85a577&_nc_eui2=AeEAGmpD3eVezDnxbJmKaM7GOLka4AVZNxo4uRrgBVk3GmvAxO4n89z82KGo7AWF1VGi2OE8O2K2k5EzeJt26-T0&_nc_ohc=OxBulA_DQaQAX8zBTKP&_nc_oc=AQlFo9ck3f_lUz4-JjdbUAUWiLc3qYnkwN2tTRSpxHTDBYVmZt46t116qIS9baB4pUM&_nc_ht=scontent.fkkc2-1.fna&_nc_tp=7&oh=bea03a81723fe80034e5a9917496ae9a&oe=5F5E3B9D";
+      "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
   String imageBackground =
       "https://www.jpl.nasa.gov/images/spitzer/20190827/3-PIA10181-640x309.jpg";
 
@@ -48,25 +47,25 @@ class _Profile extends State {
                 child: Column(
                   children: <Widget>[
                     ListTile(
-                        leading: Icon(Icons.account_circle),
-                        title: Text("ชื่อผู้ใช้"),
-                       ),
+                      leading: Icon(Icons.account_circle),
+                      title: Text("ชื่อผู้ใช้"),
+                    ),
                     ListTile(
-                        leading: Icon(Icons.alternate_email),
-                        title: Text("E-mail"),
-                       ),
+                      leading: Icon(Icons.alternate_email),
+                      title: Text("E-mail"),
+                    ),
                     ListTile(
-                        leading: Icon(Icons.call_made),
-                        title: Text("ช่องทางติดต่อ"),
-                       ),
+                      leading: Icon(Icons.call_made),
+                      title: Text("ช่องทางติดต่อ"),
+                    ),
                     ListTile(
-                        leading: Icon(Icons.cake),
-                        title: Text("วัน-เดือน-ปีเกิด"),
-                        ),
+                      leading: Icon(Icons.cake),
+                      title: Text("วัน-เดือน-ปีเกิด"),
+                    ),
                     ListTile(
-                        leading: Icon(Icons.note_add),
-                        title: Text("อื่นๆ"),
-                       ),
+                      leading: Icon(Icons.note_add),
+                      title: Text("อื่นๆ"),
+                    ),
                     ListTile(
                       leading: Icon(Icons.note_add),
                       title: Text("อื่นๆ"),

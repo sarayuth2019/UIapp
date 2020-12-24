@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:untitled/Login/loginPage.dart';
 
+
 class RegisterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -20,12 +21,22 @@ class _RegisterPage extends State {
   TextEditingController conPass = TextEditingController();
   var scaffoldKey = new GlobalKey<ScaffoldState>();
 
+//วันเดือนปี
+  DateTime _birthdate;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _birthdate = DateTime.now();
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
-      home: new Scaffold(key: scaffoldKey,
+      home: new Scaffold(
+        key: scaffoldKey,
         appBar: new AppBar(
           backgroundColor: Colors.teal,
           title: new Text('Register'),
@@ -45,6 +56,7 @@ class _RegisterPage extends State {
     );
   }
 
+// หน้าแสดง UI
   Widget pageUI() {
     return new Column(
       children: [
@@ -57,6 +69,7 @@ class _RegisterPage extends State {
           validator: validateUsername,
           decoration: InputDecoration(hintText: "Username"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.next,
           onSaved: (String val) {
             username = val;
           },
@@ -68,6 +81,7 @@ class _RegisterPage extends State {
           obscureText: true,
           decoration: InputDecoration(hintText: "Password"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.next,
           onSaved: (String val) {
             password = val;
           },
@@ -79,6 +93,7 @@ class _RegisterPage extends State {
           obscureText: true,
           decoration: InputDecoration(hintText: "ConfirmPassword"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.next,
           onSaved: (String val) {
             confirmPassword = val;
           },
@@ -88,6 +103,7 @@ class _RegisterPage extends State {
           validator: validateName,
           decoration: InputDecoration(hintText: "Name"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.next,
           onSaved: (String val) {
             name = val;
           },
@@ -97,6 +113,7 @@ class _RegisterPage extends State {
           validator: validateSurname,
           decoration: InputDecoration(hintText: "Surname"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.next,
           onSaved: (String val) {
             surname = val;
           },
@@ -106,10 +123,17 @@ class _RegisterPage extends State {
           validator: validateEmail,
           decoration: InputDecoration(hintText: "Email"),
           keyboardType: TextInputType.text,
+          textInputAction:TextInputAction.done,
           onSaved: (String val) {
             email = val;
           },
         ),
+        ListTile(
+            title: Text(
+                "วัน-เดือน-ปีเกิด: ${_birthdate.day}-${_birthdate.month}-${_birthdate.year}"),
+            trailing: Icon(Icons.date_range),
+            onTap: selectData),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -147,6 +171,21 @@ class _RegisterPage extends State {
     );
   }
 
+//ใส่วันเดือนปีเกิด/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  selectData() async {
+    DateTime birthday = await showDatePicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 60),
+      lastDate: DateTime(DateTime.now().year + 60),
+      initialDate: _birthdate,
+    );
+    if (birthday != null)
+      setState(() {
+        _birthdate = birthday;
+      });
+  }
+
+//เช็ค text ที่เข้ามา
   String validateUsername(String value) {
     String pattern = r'(^[a-zA-Z0-9]*$)';
     RegExp regExp = new RegExp(pattern);
@@ -219,6 +258,7 @@ class _RegisterPage extends State {
       print("Username $username");
       print("Password $password");
       print("Email $email");
+      print("birthday $_birthdate");
       saveToDB();
     } else {
       //Have error
@@ -236,12 +276,15 @@ class _RegisterPage extends State {
     params['password'] = password.toString();
     params['name'] = name.toString();
     params['surname'] = surname.toString();
+    params['email'] = email.toString();
+    params['birthday'] = _birthdate.toString();
     http
         .post(
             'https://api-application-project-final.herokuapp.com/Register/register',
             body: params)
         .then((res) {
       print(res.body);
+
       //นำค่าจาก aip มาใช้
       Map _registerMap = jsonDecode(res.body) as Map;
       var registerStatus = _registerMap['status'];
@@ -252,8 +295,8 @@ class _RegisterPage extends State {
           Navigator.pop(
               context, MaterialPageRoute(builder: (context) => LoginPage()));
         } else if (registerStatus == 0) {
-          scaffoldKey.currentState
-              .showSnackBar(SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว')));
+          scaffoldKey.currentState.showSnackBar(
+              SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว')));
         } else {
           print('State error');
         }

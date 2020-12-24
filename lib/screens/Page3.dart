@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled/screens/post.dart';
 
 class Page3 extends StatelessWidget {
-  String image =
-      "https://scontent.fkkc2-1.fna.fbcdn.net/v/t1.0-9/s960x960/58784964_1923045707800161_4312147723529748480_o.jpg?_nc_cat=103&_nc_sid=85a577&_nc_eui2=AeGqQmlZTyGpXyhOBwP_YLAPjGrJ4RPlgLmMasnhE-WAuUGCYryWp0OTkP9tqSlkJenTTa1fFI61RtZ23es0mD29&_nc_ohc=PZGQRZWF13MAX_sLiyj&_nc_ht=scontent.fkkc2-1.fna&_nc_tp=7&oh=21d49e1a448e3dd117192524688e8972&oe=5F5FDA7D";
-
+  String image = "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
