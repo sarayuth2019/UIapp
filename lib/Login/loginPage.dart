@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/RegisterPage/registerPage.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/main.dart';
+import 'package:untitled/mainPage.dart';
 
 void main() => runApp(MaterialApp(
       home: LoginPage(),
@@ -26,20 +26,16 @@ class _Login extends State {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold( key: globalKey,
-      appBar: AppBar(
-        title: Text("Login page"),
-        backgroundColor: Colors.teal,
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(margin: EdgeInsets.only(top:110,bottom: 40),
+            Container(margin: EdgeInsets.only(top:180,bottom: 40),
               child: Stack(
                 children: <Widget>[
                   // Stroked text as border.
                   Text(
-                    "Let's Talk !",
+                    "ECP Talk !",
                     style: TextStyle(
                       fontSize: 40,
                       foreground: Paint()
@@ -50,7 +46,7 @@ class _Login extends State {
                   ),
                   // Solid text as fill.
                   Text(
-                    "Let's Talk !",
+                    "ECP Talk !",
                     style: TextStyle(
                       fontSize: 40,
                       color: Colors.white,

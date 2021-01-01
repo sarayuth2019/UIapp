@@ -18,12 +18,10 @@ class _RegisterPage extends State {
   bool _checkData = false;
   String username, password, confirmPassword, name, surname, email;
   TextEditingController pass = TextEditingController();
-  TextEditingController conPass = TextEditingController();
-  var scaffoldKey = new GlobalKey<ScaffoldState>();
-
-//วันเดือนปี
+  //วันเดือนปี
   DateTime _birthdate;
 
+  var scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -87,7 +85,6 @@ class _RegisterPage extends State {
           },
         ),
         TextFormField(
-          controller: conPass,
           maxLength: 12,
           validator: validateConfirmPass,
           obscureText: true,
@@ -264,7 +261,7 @@ class _RegisterPage extends State {
       //Have error
       setState(() {
         _checkData = true;
-        print("No data");
+        print("Fill out the form correctly");
       });
     }
   }
@@ -292,9 +289,11 @@ class _RegisterPage extends State {
 
       setState(() {
         if (registerStatus == 1) {
+          print("register Success !");
           Navigator.pop(
               context, MaterialPageRoute(builder: (context) => LoginPage()));
         } else if (registerStatus == 0) {
+          print("username Duplicate !");
           scaffoldKey.currentState.showSnackBar(
               SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว')));
         } else {
