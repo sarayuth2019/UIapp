@@ -6,9 +6,9 @@ import 'package:untitled/screens/Page1.dart';
 import 'package:untitled/screens/Page2.dart';
 import 'package:untitled/screens/Page3.dart';
 import 'package:untitled/screens/Page4.dart';
-import 'package:untitled/screens/editprofile.dart';
+import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/editprofile.dart';
 import 'package:untitled/screens/post.dart';
-import 'package:untitled/screens/profile.dart';
+import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/profile.dart';
 
 
 
@@ -23,11 +23,6 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State {
   String imageProfile = "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
   String imageBackground = "https://www.jpl.nasa.gov/images/spitzer/20190827/3-PIA10181-640x309.jpg";
-  //เงื่อนไข logout
-  void logout() {
-    setState(() {});
-  }
-
 
   @override
   Widget build(BuildContext context) {

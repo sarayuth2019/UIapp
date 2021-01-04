@@ -28,9 +28,8 @@ class _Login extends State {
     return new Scaffold( key: globalKey,
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(margin: EdgeInsets.only(top:180,bottom: 40),
+            Container(margin: EdgeInsets.only(top:220,bottom: 30),
               child: Stack(
                 children: <Widget>[
                   // Stroked text as border.
@@ -141,6 +140,7 @@ class _Login extends State {
 
       setState(() {
         if (statusData == 1) {
+          print("Login Success");
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
 
