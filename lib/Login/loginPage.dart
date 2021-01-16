@@ -3,9 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/RegisterPage/registerPage.dart';
 import 'package:http/http.dart' as http;
+import 'package:untitled/Login/json_data_login.dart';
 import 'package:untitled/mainPage.dart';
 
 void main() => runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: LoginPage(),
     ));
 
@@ -18,46 +20,53 @@ class LoginPage extends StatefulWidget {
 }
 
 class _Login extends State {
+  JsonDataLogin _dataLogin;
   final globalKey = GlobalKey<ScaffoldState>();
   final user = TextEditingController();
   final pass = TextEditingController();
+  String urlApiLogin =
+      "https://api-application-project-final.herokuapp.com/Login/login";
+  final snackBar = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold( key: globalKey,
+    return new Scaffold(
+      key: globalKey,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(margin: EdgeInsets.only(top:220,bottom: 30),
-              child: Stack(
-                children: <Widget>[
-                  // Stroked text as border.
-                  Text(
-                    "ECP Talk !",
-                    style: TextStyle(
-                      fontSize: 40,
-                      foreground: Paint()
-                        ..style = PaintingStyle.stroke
-                        ..strokeWidth = 6
-                        ..color = Colors.teal,
-                    ),
-                  ),
-                  // Solid text as fill.
-                  Text(
-                    "ECP Talk !",
-                    style: TextStyle(
-                      fontSize: 40,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              )),
             Container(
-              margin:
-                  EdgeInsets.only(left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
+                margin: EdgeInsets.only(top: 220, bottom: 30),
+                child: Stack(
+                  children: <Widget>[
+                    // Stroked text as border.
+                    Text(
+                      "ECP Talk !",
+                      style: TextStyle(
+                        fontSize: 40,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 6
+                          ..color = Colors.teal,
+                      ),
+                    ),
+                    // Solid text as fill.
+                    Text(
+                      "ECP Talk !",
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                )),
+            Container(
+              margin: EdgeInsets.only(
+                  left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(const Radius.circular(25.0)),
+                borderRadius:
+                     BorderRadius.all(Radius.circular(25.0)),
                 border: Border.all(width: 2.0, color: Colors.black38),
               ),
               child: TextField(
@@ -70,10 +79,11 @@ class _Login extends State {
               ),
             ),
             Container(
-              margin:
-                  EdgeInsets.only(left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
+              margin: EdgeInsets.only(
+                  left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(const Radius.circular(25.0)),
+                borderRadius:
+                    BorderRadius.all(Radius.circular(25.0)),
                 border: Border.all(width: 2.0, color: Colors.black38),
               ),
               child: TextField(
@@ -87,11 +97,10 @@ class _Login extends State {
               ),
             ),
             Container(
-              margin:
-                  EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 5.0),
-              decoration: BoxDecoration(),
+              margin: EdgeInsets.only(
+                  left: 20.0, right: 20.0, bottom: 0.0, top: 5.0),
               child: RaisedButton(
-                onPressed: toLogin,
+                onPressed:_toLogin,
                 child: Text("Login"),
                 color: Colors.teal,
                 textColor: Colors.white,
@@ -103,9 +112,8 @@ class _Login extends State {
               style: TextStyle(color: Colors.blueAccent, fontSize: 15),
             )),
             Container(
-              margin:
-                  EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
-              decoration: BoxDecoration(),
+              margin: EdgeInsets.only(
+                  left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
               child: RaisedButton(
                 onPressed: () {
                   Navigator.push(context,
@@ -115,40 +123,57 @@ class _Login extends State {
                 color: Colors.black12,
                 textColor: Colors.white,
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  void toLogin() {
+  /*void toLogin(){
+    final snackBar = SnackBar(content: Text('กรุณาตรวจสอบ Username,Password'));
     Map params = Map();
     params['username'] = user.text;
     params['password'] = pass.text;
-    http
-        .post('https://api-application-project-final.herokuapp.com/Login/login',
-            body: params)
-        .then((res) {
+    http.post(urlApiLogin, body: params).then((res) {
       print(res.body);
 
       Map _userMap = jsonDecode(res.body) as Map;
       var statusData = _userMap['status'];
-      print(statusData);
-
-      final snackBar = SnackBar(content: Text('กรุณาตรวจสอบ Username,Password'));
+      print("statusData:$statusData");
 
       setState(() {
         if (statusData == 1) {
           print("Login Success");
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else if (statusData == 0) {
+          globalKey.currentState.showSnackBar(snackBar);
+        } else {
+          print('error not connected to API');
+        }
+      });
+    });
+  }*/
 
-        }else if (statusData == 0 ){
+  Future<void> _toLogin() async {
+    Map params = Map();
+    params['username'] = user?.text ??= "not have text user";
+    params['password'] = pass?.text ??= "not have text pass";
+    await http.post(urlApiLogin, body: params).then((res) {
+      print("connect to API Login...");
+      print(res.body);
+
+      _dataLogin = dataLoginFromJson(res.body);
+      print("StatusData : ${_dataLogin.status}");
+
+      setState(() {
+        if (_dataLogin.status == 1) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        } else if (_dataLogin.status == 0) {
           globalKey.currentState.showSnackBar(snackBar);
         }
-          else{print('error not connected to API');}
-
       });
     });
   }
