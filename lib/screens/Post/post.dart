@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:untitled/mainPage.dart';
-
+import 'package:http/http.dart' as http;
 
 class Post extends StatefulWidget {
   @override
@@ -11,16 +12,23 @@ class Post extends StatefulWidget {
 }
 
 class _Post extends State {
-  TextEditingController postText = TextEditingController();
-
-  void postController() {
-    setState(() {});
-  }
+  final globalKey = GlobalKey<ScaffoldState>();
+  final snackBarPost1 = SnackBar(content: Text("โพสข้อความสำเร็จ !"));
+  final snackBarPost2 = SnackBar(content: Text("โพสผิดพลาด !"));
+  final snackBarPost3 = SnackBar(content: Text("กรุณากรอกข้อความที่ต้องการโพส !"));
+  String urlApiPost =
+      "https://api-application-project-final.herokuapp.com//Post/post";
+  int _id = 1;
+  String _namePost = "wanmongkon";
+  String _surNamePost = "keawhanam";
+  String _textPost;
+  TextEditingController textPost = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      key: globalKey,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
           Widget>[
         Container(
@@ -33,12 +41,12 @@ class _Post extends State {
             children: <Widget>[
               ListTile(
                 leading: Icon(
-                  Icons.queue,
+                  Icons.insert_comment,
                   color: Colors.teal,
                 ),
                 title: TextField(
+                  controller: textPost,
                   maxLines: null,
-                  controller: postText,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     hintText: "กรุณาใส่ข้อความ",
@@ -55,7 +63,7 @@ class _Post extends State {
               EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
           decoration: BoxDecoration(),
           child: RaisedButton(
-            onPressed: postController,
+            onPressed: _checkTextPost,
             child: Text("Post"),
             color: Colors.teal,
             textColor: Colors.white,
@@ -77,5 +85,40 @@ class _Post extends State {
         ),
       ]),
     );
+  }
+
+  void _checkTextPost() {
+    _textPost = textPost.text;
+    setState(() {
+      if (_textPost.length != 0) {
+        _sendPostToDB();
+      } else if (_textPost.length == 0) {
+        print("Don't post Text not null !");
+        return globalKey.currentState.showSnackBar(snackBarPost3);
+      }
+    });
+  }
+
+  void _sendPostToDB() {
+    print('TextPost : ${_textPost.toString()}');
+    Map params = Map();
+    params['id'] = _id.toString();
+    params['name_post'] = _namePost.toString();
+    params['surname_post'] = _surNamePost.toString();
+    params['textpost'] = _textPost.toString();
+    http.post(urlApiPost, body: params).then((res) {
+      print('connect to api post');
+      print(res.body);
+      Map _dataPost = jsonDecode(res.body) as Map;
+      var _statusPost = _dataPost['status'];
+      print("StatusPost : ${_statusPost}");
+      setState(() {
+        if (_statusPost == 1) {
+          globalKey.currentState.showSnackBar(snackBarPost1);
+        } else {
+          return globalKey.currentState.showSnackBar(snackBarPost2);
+        }
+      });
+    });
   }
 }

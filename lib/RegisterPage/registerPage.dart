@@ -20,7 +20,6 @@ class _RegisterPage extends State {
   TextEditingController pass = TextEditingController();
   //วันเดือนปี
   DateTime _birthdate;
-
   var scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -213,7 +212,7 @@ class _RegisterPage extends State {
 
   String validateConfirmPass(String value) {
     if (value.length == 0) {
-      return "กรุณากรอกพาสเวิร์ดให้ตรงกัน";
+      return "กรุณากรอกพาสเวิร์ดเพื่อยืนยัน";
     } else if (value != pass.text) {
       return "กรุณากรอกพาสเวิร์ดให้ตรงกัน";
     }

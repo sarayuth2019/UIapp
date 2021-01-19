@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled/screens/post.dart';
+import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/Post/post.dart';
 
 class Page3 extends StatelessWidget {
   String image = "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";

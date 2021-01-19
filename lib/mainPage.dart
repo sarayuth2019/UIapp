@@ -7,8 +7,9 @@ import 'package:untitled/screens/Page2.dart';
 import 'package:untitled/screens/Page3.dart';
 import 'package:untitled/screens/Page4.dart';
 import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/editprofile.dart';
-import 'package:untitled/screens/post.dart';
 import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/profile.dart';
+import 'package:untitled/screens/Post/post.dart';
+
 
 
 
@@ -124,7 +125,9 @@ class _HomePage extends State {
             backgroundColor: Colors.teal,
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Post()));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Post()));
             },
             child: Icon(
               Icons.add,

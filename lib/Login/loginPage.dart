@@ -26,7 +26,7 @@ class _Login extends State {
   final pass = TextEditingController();
   String urlApiLogin =
       "https://api-application-project-final.herokuapp.com/Login/login";
-  final snackBar = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
+  final snackBarLogin = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
 
   @override
   Widget build(BuildContext context) {
@@ -156,11 +156,11 @@ class _Login extends State {
     });
   }*/
 
-  Future<void> _toLogin() async {
+  void _toLogin(){
     Map params = Map();
-    params['username'] = user?.text ??= "not have text user";
-    params['password'] = pass?.text ??= "not have text pass";
-    await http.post(urlApiLogin, body: params).then((res) {
+    params['username'] = user.text;
+    params['password'] = pass.text;
+    http.post(urlApiLogin, body: params).then((res) {
       print("connect to API Login...");
       print(res.body);
 
@@ -172,7 +172,7 @@ class _Login extends State {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         } else if (_dataLogin.status == 0) {
-          globalKey.currentState.showSnackBar(snackBar);
+          globalKey.currentState.showSnackBar(snackBarLogin);
         }
       });
     });
