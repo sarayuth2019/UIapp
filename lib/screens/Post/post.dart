@@ -100,7 +100,6 @@ class _Post extends State {
   }
 
   void _sendPostToDB() {
-    print('TextPost : ${_textPost.toString()}');
     Map params = Map();
     params['id'] = _id.toString();
     params['name_post'] = _namePost.toString();
@@ -108,6 +107,8 @@ class _Post extends State {
     params['textpost'] = _textPost.toString();
     http.post(urlApiPost, body: params).then((res) {
       print('connect to api post');
+      print('NamePost : ${_namePost.toString()} ${_surNamePost.toString()}');
+      print('TextPost : ${_textPost.toString()}');
       print(res.body);
       Map _dataPost = jsonDecode(res.body) as Map;
       var _statusPost = _dataPost['status'];

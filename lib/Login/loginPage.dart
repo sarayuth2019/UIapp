@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/RegisterPage/registerPage.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/Login/json_data_login.dart';
+import 'package:untitled/Login/data_login.dart';
 import 'package:untitled/mainPage.dart';
 
 void main() => runApp(MaterialApp(
@@ -20,13 +20,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _Login extends State {
+
   JsonDataLogin _dataLogin;
   final globalKey = GlobalKey<ScaffoldState>();
   final user = TextEditingController();
   final pass = TextEditingController();
   String urlApiLogin =
       "https://api-application-project-final.herokuapp.com/Login/login";
-  final snackBarLogin = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
+  final snackBarLoginConnect = SnackBar(content: Text("Login...."));
+  final snackBarLoginFail = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +159,7 @@ class _Login extends State {
   }*/
 
   void _toLogin(){
+    globalKey.currentState.showSnackBar(snackBarLoginConnect);
     Map params = Map();
     params['username'] = user.text;
     params['password'] = pass.text;
@@ -172,7 +175,7 @@ class _Login extends State {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         } else if (_dataLogin.status == 0) {
-          globalKey.currentState.showSnackBar(snackBarLogin);
+          globalKey.currentState.showSnackBar(snackBarLoginFail);
         }
       });
     });
