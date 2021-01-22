@@ -27,7 +27,7 @@ class _Login extends State {
   final pass = TextEditingController();
   String urlApiLogin =
       "https://api-application-project-final.herokuapp.com/Login/login";
-  final snackBarLoginConnect = SnackBar(content: Text("Login...."));
+  final snackBarLoginConnect = SnackBar(content: Text("Please wait a moment, Logging in..."));
   final snackBarLoginFail = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
 
   @override

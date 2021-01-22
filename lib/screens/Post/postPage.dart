@@ -57,6 +57,30 @@ class _PostPage extends State {
                             Text(snapshot.data[id].textpost),
                             SizedBox(
                               height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                RaisedButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'ถูกใจ',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    'พูดคุย',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  color: Colors.teal,
+                                ),
+                              ],
                             )
                           ],
                         ),
@@ -72,18 +96,17 @@ class _PostPage extends State {
     print('connect to api get Post');
 
     var _data = await http.get(_urlGetPost);
-    var jsonDataPost = jsonDecode(_data.body);
+    var jsonDataPost = jsonDecode(utf8.decode(_data.bodyBytes));
     print('Connect Success !');
 
     var dataJsonPost = jsonDataPost['data'];
     print('Data Post : ${dataJsonPost}');
 
     List<Post_data> post = [];
-    for (var u in dataJsonPost) {
-      Post_data _post = Post_data(u["id"], u["name_post"], u["surname_post"],
-          u["textpost"], u["datePost"]);
-
-      post.add(_post);
+    for (var p in dataJsonPost) {
+      Post_data _post = Post_data(p["id"], p["name_post"], p["surname_post"],
+          p["textpost"], p["datePost"]);
+      post.insert(0, _post);
     }
     print('Post length : ${post.length}');
     return post;
