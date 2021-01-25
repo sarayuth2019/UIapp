@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:untitled/Login/loginPage.dart';
-
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -16,8 +17,12 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPage extends State {
   GlobalKey<FormState> _key = new GlobalKey();
   bool _checkData = false;
+  File imageSave;
   String username, password, confirmPassword, name, surname, email;
   TextEditingController pass = TextEditingController();
+  final snackBarRegister = SnackBar(content: Text('Please wait a moment , registering...'));
+  final snackBarRegisterFail = SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว'));
+
   //วันเดือนปี
   DateTime _birthdate;
   var scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -57,16 +62,25 @@ class _RegisterPage extends State {
   Widget pageUI() {
     return new Column(
       children: [
-        Text(
-          "สมัคสมาชิก",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
+        GestureDetector(
+            child: Container(color: Colors.black12,
+              height: 100,
+              width: 100,
+              child: imageSave == null
+                  ? Icon(Icons.add)
+                  : Image.file(
+                      imageSave,fit: BoxFit.fill,
+                    ),
+            ),
+            onTap: () {
+              _showAlertSelectImage(context);
+            }),
         TextFormField(
           maxLength: 12,
           validator: validateUsername,
           decoration: InputDecoration(hintText: "Username"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.next,
+          textInputAction: TextInputAction.next,
           onSaved: (String val) {
             username = val;
           },
@@ -78,7 +92,7 @@ class _RegisterPage extends State {
           obscureText: true,
           decoration: InputDecoration(hintText: "Password"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.next,
+          textInputAction: TextInputAction.next,
           onSaved: (String val) {
             password = val;
           },
@@ -89,7 +103,7 @@ class _RegisterPage extends State {
           obscureText: true,
           decoration: InputDecoration(hintText: "ConfirmPassword"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.next,
+          textInputAction: TextInputAction.next,
           onSaved: (String val) {
             confirmPassword = val;
           },
@@ -99,7 +113,7 @@ class _RegisterPage extends State {
           validator: validateName,
           decoration: InputDecoration(hintText: "Name"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.next,
+          textInputAction: TextInputAction.next,
           onSaved: (String val) {
             name = val;
           },
@@ -109,7 +123,7 @@ class _RegisterPage extends State {
           validator: validateSurname,
           decoration: InputDecoration(hintText: "Surname"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.next,
+          textInputAction: TextInputAction.next,
           onSaved: (String val) {
             surname = val;
           },
@@ -119,7 +133,7 @@ class _RegisterPage extends State {
           validator: validateEmail,
           decoration: InputDecoration(hintText: "Email"),
           keyboardType: TextInputType.text,
-          textInputAction:TextInputAction.done,
+          textInputAction: TextInputAction.done,
           onSaved: (String val) {
             email = val;
           },
@@ -129,7 +143,6 @@ class _RegisterPage extends State {
                 "วัน-เดือน-ปีเกิด: ${_birthdate.day}-${_birthdate.month}-${_birthdate.year}"),
             trailing: Icon(Icons.date_range),
             onTap: selectData),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -167,21 +180,63 @@ class _RegisterPage extends State {
     );
   }
 
-//ใส่วันเดือนปีเกิด/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  selectData() async {
-    DateTime birthday = await showDatePicker(
-      context: context,
-      firstDate: DateTime(DateTime.now().year - 60),
-      lastDate: DateTime(DateTime.now().year + 60),
-      initialDate: _birthdate,
-    );
-    if (birthday != null)
-      setState(() {
-        _birthdate = birthday;
-      });
+//////////เลือกรูปภาพ///////////////////////
+
+  void _showAlertSelectImage(BuildContext context) async {
+    print('Show Alert Dialog Image !');
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Select Choice'),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      child: GestureDetector(
+                          child: Text('Gallery'),
+                          onTap: _onGallery
+                          )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      child: GestureDetector(
+                          child: Text('Camera'),
+                          onTap: _onCamera
+                          )),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
-//เช็ค text ที่เข้ามา
+   _onGallery() async {
+    print('Select Gallery');
+    // ignore: deprecated_member_use
+    var _imageGallery =
+        await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imageSave = _imageGallery;
+      print('Image Gallery : ${imageSave}');
+    });
+    Navigator.of(context).pop();
+  }
+
+   _onCamera() async {
+     print('Select Camera');
+    // ignore: deprecated_member_use
+    var _imageCamera = await ImagePicker.pickImage(source: ImageSource.camera);
+    setState(() {
+      imageSave = _imageCamera;
+      print('Image Camera : ${imageSave}');
+    });
+    Navigator.of(context).pop();
+  }
+
+//เช็ค text ที่เข้ามา////////////////////
   String validateUsername(String value) {
     String pattern = r'(^[a-zA-Z0-9]*$)';
     RegExp regExp = new RegExp(pattern);
@@ -247,10 +302,25 @@ class _RegisterPage extends State {
     return null;
   }
 
+//ใส่วันเดือนปีเกิด/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  selectData() async {
+    DateTime birthday = await showDatePicker(
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 60),
+      lastDate: DateTime(DateTime.now().year + 60),
+      initialDate: _birthdate,
+    );
+    if (birthday != null)
+      setState(() {
+        _birthdate = birthday;
+      });
+  }
+
   _sendToCheckText() {
     if (_key.currentState.validate()) {
       // No error
       _key.currentState.save();
+      print("ImageProfile $imageSave");
       print("Username $username");
       print("Password $password");
       print("Email $email");
@@ -266,8 +336,10 @@ class _RegisterPage extends State {
   }
 
   void saveToDB() {
+    scaffoldKey.currentState.showSnackBar(snackBarRegister);
     //ส่งค่าไปยัง api
     Map params = Map();
+    params['picture'] = imageSave.toString();
     params['username'] = username.toString();
     params['password'] = password.toString();
     params['name'] = name.toString();
@@ -293,8 +365,7 @@ class _RegisterPage extends State {
               context, MaterialPageRoute(builder: (context) => LoginPage()));
         } else if (registerStatus == 0) {
           print("username Duplicate !");
-          scaffoldKey.currentState.showSnackBar(
-              SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว')));
+          scaffoldKey.currentState.showSnackBar(snackBarRegisterFail);
         } else {
           print('State error');
         }

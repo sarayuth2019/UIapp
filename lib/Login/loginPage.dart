@@ -118,6 +118,7 @@ class _Login extends State {
                   left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
               child: RaisedButton(
                 onPressed: () {
+                  print('Go To PageRegister !');
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => RegisterPage()));
                 },
