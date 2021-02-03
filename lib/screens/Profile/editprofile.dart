@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/mainPage.dart';
+
 
 class EditProfile extends StatefulWidget {
   @override
@@ -91,10 +91,7 @@ class _EditProfile extends State {
                     RaisedButton(
                         child: Text("ยกเลิก"),
                         onPressed: () {
-                          Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          Navigator.of(context).pop();
                         })
                   ],
                 ),

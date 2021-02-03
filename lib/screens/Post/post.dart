@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:untitled/mainPage.dart';
 import 'package:http/http.dart' as http;
 
 class Post extends StatefulWidget {
@@ -15,7 +14,8 @@ class _Post extends State {
   final globalKey = GlobalKey<ScaffoldState>();
   final snackBarPost1 = SnackBar(content: Text("โพสข้อความสำเร็จ !"));
   final snackBarPost2 = SnackBar(content: Text("โพสผิดพลาด !"));
-  final snackBarPost3 = SnackBar(content: Text("กรุณากรอกข้อความที่ต้องการโพส !"));
+  final snackBarPost3 =
+      SnackBar(content: Text("กรุณากรอกข้อความที่ต้องการโพส !"));
   String urlApiPost =
       "https://api-application-project-final.herokuapp.com//Post/post";
   int _id = 1;
@@ -63,23 +63,22 @@ class _Post extends State {
               EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
           decoration: BoxDecoration(),
           child: RaisedButton(
-            onPressed: _checkTextPost,
-            child: Text("Post"),
-            color: Colors.teal,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Cancel"),
+            color: Colors.black12,
             textColor: Colors.white,
           ),
         ),
         Container(
           margin:
-              EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
+          EdgeInsets.only(left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
           decoration: BoxDecoration(),
           child: RaisedButton(
-            onPressed: () {
-              Navigator.pop(
-                  context, MaterialPageRoute(builder: (context) => HomePage()));
-            },
-            child: Text("Go back"),
-            color: Colors.black12,
+            onPressed: _checkTextPost,
+            child: Text("Post"),
+            color: Colors.teal,
             textColor: Colors.white,
           ),
         ),

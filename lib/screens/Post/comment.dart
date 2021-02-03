@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled/mainPage.dart';
+
 
 
 class Comment extends StatefulWidget {
@@ -75,8 +75,7 @@ class _Comment extends State {
             child: IconButton(
               icon: Icon(Icons.exit_to_app, color: Colors.teal,),
               onPressed:(){
-                Navigator.pop(
-                    context, MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.of(context).pop();
               },),
           )
         ],

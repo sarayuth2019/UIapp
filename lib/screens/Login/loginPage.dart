@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/RegisterPage/registerPage.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/Login/data_login.dart';
-import 'package:untitled/mainPage.dart';
+import 'package:untitled/homePage.dart';
+import 'package:untitled/screens/Register/registerPage.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -21,7 +20,7 @@ class LoginPage extends StatefulWidget {
 
 class _Login extends State {
 
-  JsonDataLogin _dataLogin;
+  //JsonDataLogin _dataLogin;
   final globalKey = GlobalKey<ScaffoldState>();
   final user = TextEditingController();
   final pass = TextEditingController();
@@ -29,6 +28,9 @@ class _Login extends State {
       "https://api-application-project-final.herokuapp.com/Login/login";
   final snackBarLoginConnect = SnackBar(content: Text("Please wait a moment, Logging in..."));
   final snackBarLoginFail = SnackBar(content: Text("กรุณาตรวจสอบ Username,Password"));
+
+  var user_id = 10;
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class _Login extends State {
               margin: EdgeInsets.only(
                   left: 20.0, right: 20.0, bottom: 0.0, top: 5.0),
               child: RaisedButton(
-                onPressed:_toLogin,
+                onPressed:toLogin,
                 child: Text("Login"),
                 color: Colors.teal,
                 textColor: Colors.white,
@@ -133,12 +135,15 @@ class _Login extends State {
     );
   }
 
-  /*void toLogin(){
-    final snackBar = SnackBar(content: Text('กรุณาตรวจสอบ Username,Password'));
-    Map params = Map();
+  void toLogin(){
+    globalKey.currentState.showSnackBar(snackBarLoginConnect);
+    Map <String,String>params = Map();
     params['username'] = user.text;
     params['password'] = pass.text;
-    http.post(urlApiLogin, body: params).then((res) {
+    String paramsString = Uri(queryParameters: params).query;
+    print(paramsString);
+    var newUrlApiLogin = urlApiLogin+'?'+paramsString;
+    http.get(newUrlApiLogin).then((res) {
       print(res.body);
 
       Map _userMap = jsonDecode(res.body) as Map;
@@ -151,15 +156,15 @@ class _Login extends State {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
         } else if (statusData == 0) {
-          globalKey.currentState.showSnackBar(snackBar);
+          globalKey.currentState.showSnackBar(snackBarLoginFail);
         } else {
           print('error not connected to API');
         }
       });
     });
-  }*/
+  }
 
-  void _toLogin(){
+  /*void _toLogin(){
     globalKey.currentState.showSnackBar(snackBarLoginConnect);
     Map params = Map();
     params['username'] = user.text;
@@ -180,5 +185,5 @@ class _Login extends State {
         }
       });
     });
-  }
+  }*/
 }

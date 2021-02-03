@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:untitled/Login/loginPage.dart';
+import 'package:untitled/screens/Login/loginPage.dart';
+
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -20,8 +21,10 @@ class _RegisterPage extends State {
   File imageSave;
   String username, password, confirmPassword, name, surname, email;
   TextEditingController pass = TextEditingController();
-  final snackBarRegister = SnackBar(content: Text('Please wait a moment , registering...'));
-  final snackBarRegisterFail = SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว'));
+  final snackBarRegister =
+      SnackBar(content: Text('Please wait a moment , registering...'));
+  final snackBarRegisterFail =
+      SnackBar(content: Text('Username นี้มีผู้ใช้แล้ว'));
 
   //วันเดือนปี
   DateTime _birthdate;
@@ -63,13 +66,15 @@ class _RegisterPage extends State {
     return new Column(
       children: [
         GestureDetector(
-            child: Container(color: Colors.black12,
-              height: 100,
-              width: 100,
+            child: Container(
+              color: Colors.black12,
+              height: 150,
+              width: 150,
               child: imageSave == null
                   ? Icon(Icons.add)
                   : Image.file(
-                      imageSave,fit: BoxFit.fill,
+                      imageSave,
+                      fit: BoxFit.fill,
                     ),
             ),
             onTap: () {
@@ -162,11 +167,7 @@ class _RegisterPage extends State {
               child: RaisedButton(
                 color: Colors.grey,
                 onPressed: () {
-                  Navigator.pop(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                      ));
+                  Navigator.of(context).pop();
                 },
                 child: Text(
                   "ยกเลิก",
@@ -195,17 +196,13 @@ class _RegisterPage extends State {
                 children: [
                   Container(
                       child: GestureDetector(
-                          child: Text('Gallery'),
-                          onTap: _onGallery
-                          )),
+                          child: Text('Gallery'), onTap: _onGallery)),
                   SizedBox(
                     height: 10,
                   ),
                   Container(
                       child: GestureDetector(
-                          child: Text('Camera'),
-                          onTap: _onCamera
-                          )),
+                          child: Text('Camera'), onTap: _onCamera)),
                 ],
               ),
             ),
@@ -213,7 +210,7 @@ class _RegisterPage extends State {
         });
   }
 
-   _onGallery() async {
+  _onGallery() async {
     print('Select Gallery');
     // ignore: deprecated_member_use
     var _imageGallery =
@@ -225,8 +222,8 @@ class _RegisterPage extends State {
     Navigator.of(context).pop();
   }
 
-   _onCamera() async {
-     print('Select Camera');
+  _onCamera() async {
+    print('Select Camera');
     // ignore: deprecated_member_use
     var _imageCamera = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {

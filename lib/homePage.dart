@@ -1,12 +1,13 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/Login/loginPage.dart';
-import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/Post/postPage.dart';
-import 'package:untitled/screens/Page2.dart';
+import 'package:untitled/screens/Login/loginPage.dart';
 import 'package:untitled/screens/Page3.dart';
 import 'package:untitled/screens/Page4.dart';
-import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/editprofile.dart';
-import 'file:///C:/Users/TopSaga/Desktop/UIApp/lib/screens/ProfilePage/profile.dart';
+import 'package:untitled/screens/Post/postPage.dart';
+import 'package:untitled/screens/Profile/editprofile.dart';
+import 'package:untitled/screens/Profile/profile.dart';
+import 'package:untitled/screens/Search/searchPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,10 +18,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State {
+  
   String imageProfile =
       "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
   String imageBackground =
-      "https://www.jpl.nasa.gov/images/spitzer/20190827/3-PIA10181-640x309.jpg";
+      "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class _HomePage extends State {
       home: DefaultTabController(
         child: Scaffold(
           appBar: AppBar(
-            title: Center(child: Text("ECP Talk !")),
+            title: Center(child: Text("ECP Talk !")),actions: [IconButton(icon: Icon(Icons.logout), onPressed: (){})],
             backgroundColor: Colors.teal,
             bottom: TabBar(tabs: <Widget>[
               Tab(
@@ -69,36 +71,42 @@ class _HomePage extends State {
                           fit: BoxFit.fill,
                           image: NetworkImage(imageBackground))),
                 ),
-                ListTile(
-                  title: Text("MyProfile"),
-                  trailing: Icon(Icons.account_circle),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Profile()));
-                  },
+                Card(
+                  child: ListTile(tileColor: Colors.black12,
+                    title: Text("MyProfile"),
+                    trailing: Icon(Icons.account_circle),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
+                    },
+                  ),
                 ),
-                ListTile(
-                  title: Text("EditProfile"),
-                  trailing: Icon(Icons.edit),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => EditProfile()));
-                  },
+                Card(
+                  child: ListTile(tileColor: Colors.black12,
+                    title: Text("EditProfile"),
+                    trailing: Icon(Icons.edit),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => EditProfile()));
+                    },
+                  ),
                 ),
-                ListTile(
-                  title: Text("Logout"),
-                  trailing: Icon(Icons.exit_to_app),
-                  onTap: () {
-                    Navigator.pop(context,
-                        MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
+                Card(
+                  child: ListTile(tileColor: Colors.black12,
+                    title: Text("Logout"),
+                    trailing: Icon(Icons.exit_to_app),
+                    onTap: () {
+                      Navigator.pop(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                  ),
                 ),
               ],
             ),
           ),
           body: TabBarView(children: <Widget>[
             PostPage(),
-            Page2(),
+            SearchPage(),
             Page3(),
             Page4(),
           ]),

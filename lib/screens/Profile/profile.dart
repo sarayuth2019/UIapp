@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:untitled/mainPage.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -16,8 +15,8 @@ class _Profile extends State {
   String imageBackground =
       "https://www.jpl.nasa.gov/images/spitzer/20190827/3-PIA10181-640x309.jpg";
 
-  double _rating = 3.0;
-
+  double ratingData = 2.5;
+  double _rating;
 
   @override
   Widget build(BuildContext context) {
@@ -51,28 +50,29 @@ class _Profile extends State {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10, bottom: 10, left: 90, right: 90),
-                        child: Row(
-                          children: [
-                            RatingBar.builder(
-                                allowHalfRating: true,
-                                initialRating: 3,
-                                minRating: 1,
-                                itemBuilder: (context, _) => Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                onRatingUpdate: (rating) {
-                                  setState(() {
-                                    _rating = rating;
-                                  });
-                                  print(_rating);
-                                }),
-                            Text("$_rating")
-                          ],
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          RatingBar.builder(
+                              //ignoreGestures: true,
+                              initialRating: ratingData,
+                              allowHalfRating: true,
+                              minRating: 1,
+                              itemCount: 5,
+                              itemBuilder: (context, i) => Icon(
+                                    Icons.star_rounded,
+                                    color: Colors.amber,
+                                  ),
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  _rating != null
+                                      ? _rating = rating
+                                      : _rating = ratingData;
+                                });
+                                print(_rating);
+                              }),
+                          Text("$_rating")
+                        ],
                       ),
                     ),
                     ListTile(
@@ -104,10 +104,7 @@ class _Profile extends State {
                     RaisedButton(
                         child: Text("ยกเลิก"),
                         onPressed: () {
-                          Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage()));
+                          Navigator.of(context).pop();
                         })
                   ],
                 ),

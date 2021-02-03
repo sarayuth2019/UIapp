@@ -21,6 +21,7 @@ class _PostPage extends State {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.black12,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.teal,
         onPressed: () {
@@ -43,18 +44,20 @@ class _PostPage extends State {
                     child: Center(child: CircularProgressIndicator()));
               } else {
                 return ListView.builder(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, top: 10, bottom: 20),
                     itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int id) {
+                    itemBuilder: (BuildContext context,index) {
                       return Card(
                         child: Column(
                           children: [
                             ListTile(
                               leading: CircleAvatar(),
                               title: Text(
-                                  '${snapshot.data[id].name_post}  ${snapshot.data[id].surname_post}'),
-                              subtitle: Text(snapshot.data[id].datePost),
+                                  '${snapshot.data[index].name_post}  ${snapshot.data[index].surname_post}'),
+                              subtitle: Text(snapshot.data[index].datePost),
                             ),
-                            Text(snapshot.data[id].textpost),
+                            Text(snapshot.data[index].textpost),
                             SizedBox(
                               height: 10,
                             ),
