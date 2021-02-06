@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,8 +18,11 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPage extends State {
   GlobalKey<FormState> _key = new GlobalKey();
+  String urlRegister =
+      'https://testheroku11111.herokuapp.com/Register/register';
   bool _checkData = false;
-  File imageSave;
+  File imageFile;
+  var imageData;
   String username, password, confirmPassword, name, surname, email;
   TextEditingController pass = TextEditingController();
   final snackBarRegister =
@@ -29,6 +33,8 @@ class _RegisterPage extends State {
   //วันเดือนปี
   DateTime _birthdate;
   var scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  Uint8List base64Decode(String source) => base64.decode(source);
 
   @override
   void initState() {
@@ -66,15 +72,25 @@ class _RegisterPage extends State {
     return new Column(
       children: [
         GestureDetector(
-            child: Container(
-              color: Colors.black12,
-              height: 150,
-              width: 150,
-              child: imageSave == null
-                  ? Icon(Icons.add)
-                  : Image.file(
-                      imageSave,
-                      fit: BoxFit.fill,
+            child: CircleAvatar(
+              radius: 75,
+              backgroundColor: Colors.black26,
+              child: imageFile == null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.memory(
+                        base64Decode(imageData),
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.fill,
+                      ),
                     ),
             ),
             onTap: () {
@@ -214,23 +230,36 @@ class _RegisterPage extends State {
     print('Select Gallery');
     // ignore: deprecated_member_use
     var _imageGallery =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      imageSave = _imageGallery;
-      print('Image Gallery : ${imageSave}');
-    });
-    Navigator.of(context).pop();
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (_imageGallery != null) {
+      setState(() {
+        imageFile = File(_imageGallery.path);
+        print('File Image Gallery : ${imageFile}');
+      });
+      imageData = base64Encode(imageFile.readAsBytesSync());
+      print('Image form Gallery : ${imageData}');
+      return imageData;
+    } else {
+      return null;
+    }
   }
 
   _onCamera() async {
     print('Select Camera');
     // ignore: deprecated_member_use
-    var _imageCamera = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      imageSave = _imageCamera;
-      print('Image Camera : ${imageSave}');
-    });
-    Navigator.of(context).pop();
+    var _imageGallery =
+    await ImagePicker().getImage(source: ImageSource.camera);
+    if (_imageGallery != null) {
+      setState(() {
+        imageFile = File(_imageGallery.path);
+        print('File Image Camera : ${imageFile}');
+      });
+      imageData = base64Encode(imageFile.readAsBytesSync());
+      print('Image form Camera : ${imageData} Type : ${imageData.runtimeType}');
+      return imageData;
+    } else {
+      return null;
+    }
   }
 
 //เช็ค text ที่เข้ามา////////////////////
@@ -317,7 +346,7 @@ class _RegisterPage extends State {
     if (_key.currentState.validate()) {
       // No error
       _key.currentState.save();
-      print("ImageProfile $imageSave");
+      print("ImageProfile $imageData");
       print("Username $username");
       print("Password $password");
       print("Email $email");
@@ -336,25 +365,20 @@ class _RegisterPage extends State {
     scaffoldKey.currentState.showSnackBar(snackBarRegister);
     //ส่งค่าไปยัง api
     Map params = Map();
-    params['picture'] = imageSave.toString();
+    params['picture'] = imageData.toString();
     params['username'] = username.toString();
     params['password'] = password.toString();
     params['name'] = name.toString();
     params['surname'] = surname.toString();
     params['email'] = email.toString();
     params['birthday'] = _birthdate.toString();
-    http
-        .post(
-            'https://api-application-project-final.herokuapp.com/Register/register',
-            body: params)
-        .then((res) {
+    http.post(urlRegister, body: params).then((res) {
       print(res.body);
 
       //นำค่าจาก aip มาใช้
       Map _registerMap = jsonDecode(res.body) as Map;
       var registerStatus = _registerMap['status'];
       print(registerStatus);
-
       setState(() {
         if (registerStatus == 1) {
           print("register Success !");

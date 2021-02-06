@@ -36,10 +36,7 @@ class Page3 extends StatelessWidget {
                             child: Container(
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Post()));
+
                                 },
                                 child: Text(
                                   "ไปยังโพส",
@@ -55,10 +52,7 @@ class Page3 extends StatelessWidget {
                             child: Container(
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Post()));
+
                                 },
                                 child: Text(
                                   "พูดคุย",

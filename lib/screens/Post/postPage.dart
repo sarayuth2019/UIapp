@@ -2,19 +2,27 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:untitled/screens/Login/data_login.dart';
 import 'package:untitled/screens/Post/post.dart';
 
 class PostPage extends StatefulWidget {
+  PostPage(this.id);
+  final int id;
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _PostPage();
+    return _PostPage(id);
   }
 }
 
 class _PostPage extends State {
+  _PostPage(this.id);
+  final int id;
+
+  UserLogin _user;
   String _urlGetPost =
-      "https://api-application-project-final.herokuapp.com/Post/postList";
+      "https://testheroku11111.herokuapp.com/Post/postList";
+
 
   @override
   // TODO: implement widget
@@ -26,7 +34,7 @@ class _PostPage extends State {
         backgroundColor: Colors.teal,
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Post()));
+              context, MaterialPageRoute(builder: (context) => Post(id)));
         },
         child: Icon(
           Icons.add,
@@ -38,7 +46,6 @@ class _PostPage extends State {
             future: _getPost(),
             // ignore: missing_return
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              print('Snapshot : ${{snapshot.data}}');
               if (snapshot.data == null) {
                 return Container(
                     child: Center(child: CircularProgressIndicator()));
@@ -65,7 +72,9 @@ class _PostPage extends State {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 RaisedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    print('User ID : ${_user.id}');
+                                  },
                                   child: Text(
                                     'ถูกใจ',
                                     style: TextStyle(color: Colors.white),
@@ -103,7 +112,6 @@ class _PostPage extends State {
     print('Connect Success !');
 
     var dataJsonPost = jsonDataPost['data'];
-    print('Data Post : ${dataJsonPost}');
 
     List<Post_data> post = [];
     for (var p in dataJsonPost) {
