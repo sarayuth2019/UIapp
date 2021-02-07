@@ -86,13 +86,13 @@ class _HomePage extends State {
                         child: UserAccountsDrawerHeader(
                           accountName: Text(_userLogin.username,
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold)),
                           accountEmail: Text(
                             _userLogin.email,
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),

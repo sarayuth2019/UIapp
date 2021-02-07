@@ -72,15 +72,39 @@ class _Profile extends State {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 40),
+                                  padding: const EdgeInsets.only(top: 30),
                                   child: Center(
                                     child: CircleAvatar(
-                                      backgroundImage: MemoryImage(
-                                          base64Decode(_userProfile.picture)),
-                                      maxRadius: 70,
+                                      backgroundColor: Colors.teal[200],
+                                      radius: 75,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child: Center(
+                                          child: Text(
+                                            "${_userProfile.name[0]}",
+                                            style: TextStyle(
+                                                fontSize: 85,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                )
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 30),
+                                  child: Center(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Image.memory(
+                                        base64Decode(_userProfile.picture),
+                                        height: 150,
+                                        width: 150,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             )),
                       ),

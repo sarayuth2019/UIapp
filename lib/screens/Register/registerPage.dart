@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/screens/Login/loginPage.dart';
 
-
 class RegisterPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -75,7 +74,7 @@ class _RegisterPage extends State {
             child: CircleAvatar(
               radius: 75,
               backgroundColor: Colors.black26,
-              child: imageFile == null
+              child: imageData == null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Icon(
@@ -237,7 +236,6 @@ class _RegisterPage extends State {
         print('File Image Gallery : ${imageFile}');
       });
       imageData = base64Encode(imageFile.readAsBytesSync());
-      print('Image form Gallery : ${imageData}');
       return imageData;
     } else {
       return null;
@@ -248,14 +246,13 @@ class _RegisterPage extends State {
     print('Select Camera');
     // ignore: deprecated_member_use
     var _imageGallery =
-    await ImagePicker().getImage(source: ImageSource.camera);
+        await ImagePicker().getImage(source: ImageSource.camera);
     if (_imageGallery != null) {
       setState(() {
         imageFile = File(_imageGallery.path);
         print('File Image Camera : ${imageFile}');
       });
       imageData = base64Encode(imageFile.readAsBytesSync());
-      print('Image form Camera : ${imageData} Type : ${imageData.runtimeType}');
       return imageData;
     } else {
       return null;

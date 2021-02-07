@@ -53,7 +53,7 @@ class _SearchPage extends State {
                                   borderRadius: BorderRadius.circular(100),
                                   child: Center(
                                     child: Text(
-                                        "${snapshot.data[index].name[0]}"),
+                                        "${snapshot.data[index].name[0]}",style: TextStyle(color: Colors.white),),
                                   ),
                                 ),
                                 ClipRRect(
