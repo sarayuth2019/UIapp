@@ -35,7 +35,7 @@ class _HomePage extends State {
   UserLogin _userLogin;
   String urlUser = "https://testheroku11111.herokuapp.com/User/";
   String imageProfile =
-      "https://danbooru.donmai.us/data/sample/__klee_genshin_impact_drawn_by_yukie_kusaka_shi__sample-6603dffff95dcb7c9cb42573045ad694.jpg";
+      "https://ecp.eng.rmuti.ac.th/wp-content/uploads/2019/12/40554453_1853273344768778_1816059919623782400_n.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -46,24 +46,29 @@ class _HomePage extends State {
         child: Scaffold(
           appBar: AppBar(
             title: Center(child: Text("ECP Talk !")),
-            actions: [IconButton(icon: Icon(Icons.logout), onPressed: () {})],
-            backgroundColor: Colors.teal,
+            actions: [
+              IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {}),
+            ],
+            backgroundColor: Colors.teal[300],
             bottom: TabBar(tabs: <Widget>[
               Tab(
                 text: "หน้าหลัก",
-                icon: Icon(Icons.home),
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
               ),
               Tab(
-                text: "ค้นหา",
-                icon: Icon(Icons.search),
+                text: "ผู้คน",
+                icon: Icon(Icons.supervisor_account, color: Colors.white),
               ),
               Tab(
                 text: "แจ้งเตือน",
-                icon: Icon(Icons.notifications_active),
+                icon: Icon(Icons.notifications_active, color: Colors.white),
               ),
               Tab(
                 text: "ข้อความ",
-                icon: Icon(Icons.mail),
+                icon: Icon(Icons.mail, color: Colors.white),
               ),
             ]),
           ),
@@ -77,6 +82,7 @@ class _HomePage extends State {
                   child: ListView(
                     children: <Widget>[
                       Container(
+                        color: Colors.white,
                         child: UserAccountsDrawerHeader(
                           accountName: Text(_userLogin.username,
                               style: TextStyle(
@@ -91,7 +97,8 @@ class _HomePage extends State {
                                 fontWeight: FontWeight.bold),
                           ),
                           currentAccountPicture: CircleAvatar(
-                            backgroundImage: MemoryImage(base64Decode(_userLogin.picture)),
+                            backgroundImage:
+                                MemoryImage(base64Decode(_userLogin.picture)),
                           ),
                           decoration: BoxDecoration(
                               image: DecorationImage(
@@ -99,16 +106,19 @@ class _HomePage extends State {
                                   image: NetworkImage(imageProfile))),
                         ),
                       ),
-                      Container(color: Colors.teal,
+                      Container(
+                        color: Colors.white,
                         height: 500,
                         child: Column(
                           children: [
                             Card(
-                              color: Colors.white70,
+                              color: Colors.teal[300],
                               shadowColor: Colors.black,
                               child: ListTile(
-                                title: Text("MyProfile"),
-                                trailing: Icon(Icons.account_circle),
+                                title: Text("MyProfile",
+                                    style: TextStyle(color: Colors.white)),
+                                trailing: Icon(Icons.account_circle,
+                                    color: Colors.white),
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -118,11 +128,12 @@ class _HomePage extends State {
                               ),
                             ),
                             Card(
-                              color: Colors.white70,
+                              color: Colors.teal[300],
                               shadowColor: Colors.black,
                               child: ListTile(
-                                title: Text("EditProfile"),
-                                trailing: Icon(Icons.edit),
+                                title: Text("EditProfile",
+                                    style: TextStyle(color: Colors.white)),
+                                trailing: Icon(Icons.edit, color: Colors.white),
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -132,11 +143,13 @@ class _HomePage extends State {
                               ),
                             ),
                             Card(
-                              color: Colors.white70,
+                              color: Colors.teal[300],
                               shadowColor: Colors.black,
                               child: ListTile(
-                                title: Text("Logout"),
-                                trailing: Icon(Icons.exit_to_app),
+                                title: Text("Logout",
+                                    style: TextStyle(color: Colors.white)),
+                                trailing: Icon(Icons.exit_to_app,
+                                    color: Colors.white),
                                 onTap: () {
                                   Navigator.push(
                                       context,

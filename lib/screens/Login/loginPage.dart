@@ -33,7 +33,7 @@ class _Login extends State {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Scaffold(
+    return new Scaffold(backgroundColor: Colors.teal[100],
       key: globalKey,
       body: SingleChildScrollView(
         child: Column(
@@ -147,7 +147,7 @@ class _Login extends State {
       print("statusData:$statusData");
 
       setState(() {
-        if (statusData == null) {
+        if (statusData == 1) {
           print("Login Success");
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => HomePage()));
@@ -169,16 +169,14 @@ class _Login extends State {
     params['password'] = pass.text;
     http.post(urlApiLogin, body: params).then((res) {
       print("connect to API Login...");
-      print(res.body);
       Map jsonDataLogin = jsonDecode(res.body) as Map;
       var statusLogin = jsonDataLogin['status'];
       var dataUserLogin = jsonDataLogin['data'];
-      userLogin = UserLogin.fromJson(dataUserLogin);
-      print("StatusData : ${statusLogin.toString()}");
-      print("ID Login : ${userLogin.id}");
+      print("Status Data : ${statusLogin}");
 
       setState(() {
         if (statusLogin == 1) {
+          userLogin = UserLogin.fromJson(dataUserLogin);
           Navigator.push(
               context,
               MaterialPageRoute(

@@ -7,7 +7,9 @@ import 'package:untitled/screens/Post/post.dart';
 
 class PostPage extends StatefulWidget {
   PostPage(this.id);
+
   final int id;
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -17,12 +19,11 @@ class PostPage extends StatefulWidget {
 
 class _PostPage extends State {
   _PostPage(this.id);
+
   final int id;
 
   UserLogin _user;
-  String _urlGetPost =
-      "https://testheroku11111.herokuapp.com/Post/postList";
-
+  String _urlGetPost = "https://testheroku11111.herokuapp.com/Post/postList";
 
   @override
   // TODO: implement widget
@@ -31,7 +32,7 @@ class _PostPage extends State {
     return Scaffold(
       backgroundColor: Colors.black12,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.teal[400],
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Post(id)));
@@ -47,19 +48,30 @@ class _PostPage extends State {
             // ignore: missing_return
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
-                return Container(
-                    child: Center(child: CircularProgressIndicator()));
+                return Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(
                     padding: const EdgeInsets.only(
                         left: 10, right: 10, top: 10, bottom: 20),
                     itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context,index) {
+                    itemBuilder: (BuildContext context, index) {
                       return Card(
                         child: Column(
                           children: [
                             ListTile(
-                              leading: CircleAvatar(),
+                              leading: CircleAvatar(backgroundColor: Colors.teal[200],
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: Center(
+                                        child: Text(
+                                            "${snapshot.data[index].name_post[0]}${snapshot.data[index].surname_post[0]}"),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               title: Text(
                                   '${snapshot.data[index].name_post}  ${snapshot.data[index].surname_post}'),
                               subtitle: Text(snapshot.data[index].datePost),
@@ -125,12 +137,12 @@ class _PostPage extends State {
 }
 
 class Post_data {
+  Post_data(
+      this.id, this.name_post, this.surname_post, this.textpost, this.datePost);
+
   final int id;
   final String name_post;
   final String surname_post;
   final String textpost;
   final String datePost;
-
-  Post_data(
-      this.id, this.name_post, this.surname_post, this.textpost, this.datePost);
 }
