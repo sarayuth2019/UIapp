@@ -34,7 +34,7 @@ class _Profile extends State {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    print("User ID profile : ${id}");
+    print("Profile ID : ${id}");
     return Scaffold(
       backgroundColor: Colors.white,
       body: FutureBuilder(
@@ -201,7 +201,7 @@ class _Profile extends State {
     var _dataUser = jsonDecode(utf8.decode(dataUser.bodyBytes));
     var _user = _dataUser['data'];
     _userProfile = UserLogin.fromJson(_user);
-    print('ID : ${_userProfile.id} User Profile : ${_userProfile.username}');
+    print('ID : ${_userProfile.id} | User Profile : ${_userProfile.username} | Name :${_userProfile.name}');
     return _userProfile;
   }
 }

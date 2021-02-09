@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:untitled/screens/Profile/profile.dart';
-import 'package:untitled/screens/Search/onSearch.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -15,86 +14,134 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPage extends State {
   String urlSearch = "https://testheroku11111.herokuapp.com/User/search";
+  List<UserAll> _user = List();
+  List<UserAll> _searchUser = List();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getUserSearch().then((value) {
+      setState(() {
+        _user = value;
+        _searchUser = _user;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.black12,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal[300],
-        child: Icon(Icons.search),
-        onPressed: () {
-          showSearch(context: context, delegate: DataSearch());
-        },
-      ),
-      body: Container(
-        child: FutureBuilder(
-          future: _getUserSearch(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            print("UserAll Snapshot data : ${snapshot.data}");
-            if (snapshot.data == null) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return GestureDetector(
-                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile(snapshot.data[index].id)));
-                        print('User ID : ${snapshot.data[index].id}');
-                      },
-                      child: Card(
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.teal[200],
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Center(
-                                    child: Text(
-                                        "${snapshot.data[index].name[0]}",style: TextStyle(color: Colors.white),),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Container(
+                color: Colors.white,
+                child: ListTile(
+                  leading: Icon(Icons.search),
+                  title: TextField(
+                      decoration: InputDecoration(
+                          hintText: 'Search Name...', border: InputBorder.none),
+                      onChanged: (textSearch) {
+                        setState(() {
+                          _searchUser = _user
+                              .where((element) => element.name
+                                  .toLowerCase()
+                                  .contains(textSearch.toLowerCase()))
+                              .toList();
+                        });
+                      }),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            child: Expanded(
+              child: FutureBuilder(
+                future: _getUserSearch(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  print("UserAll Snapshot data : ${snapshot.data}");
+                  if (snapshot.data == null) {
+                    _searchUser = _user;
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return ListView.builder(
+                        itemCount: _searchUser.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Profile(_searchUser[index].id)));
+                            },
+                            child: Card(
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.teal[200],
+                                  child: Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Center(
+                                          child: Text(
+                                            "${_searchUser[index].name[0]}",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        child: Image.memory(
+                                          base64Decode(
+                                              _searchUser[index].picture),
+                                          height: 150,
+                                          width: 150,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.memory(
-                                    base64Decode(snapshot.data[index].picture),
-                                    height: 150,
-                                    width: 150,
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ],
+                                title: Text(
+                                    "${_searchUser[index].name}  ${_searchUser[index].surname}"),
+                                subtitle: Text("${_searchUser[index].email}"),
+                              ),
                             ),
-                          ),
-                          title: Text(
-                              "${snapshot.data[index].name}  ${snapshot.data[index].surname}"),
-                          subtitle: Text("${snapshot.data[index].email}"),
-                        ),
-                      ),
-                    );
-                  });
-            }
-          },
-        ),
+                          );
+                        });
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Future<List<UserAll>> _getUserSearch() async {
-    print("Get AllUser Data !");
+    print("Get AllUser Data....");
     var _allUserData = await http.get(urlSearch);
     var jsonDataAllUser = jsonDecode(utf8.decode(_allUserData.bodyBytes));
-    print('User data all ${jsonDataAllUser}');
+    print("Get AllUser Data Success !");
     var dataJsonAllUser = jsonDataAllUser['data'];
 
     List<UserAll> userAll = [];
     for (var p in dataJsonAllUser) {
       UserAll _allUser = UserAll(
           p["id"],
-         // p["username"],
-         // p["password"],
+          // p["username"],
+          // p["password"],
           p["name"],
           p["surname"],
           p["birthday"],
@@ -103,20 +150,27 @@ class _SearchPage extends State {
           p["dateRegister"]);
       userAll.add(_allUser);
     }
-    print('User All : ${userAll.length}');
+    _user = userAll;
+    print('User All : ${_user.length}');
     return userAll;
   }
 }
 
 class UserAll {
-  UserAll(this.id,
+  UserAll(
+      this.id,
       //this.username,
       // this.password,
-      this.name, this.surname,
-      this.birthday, this.email, this.picture, this.dateRegister);
+      this.name,
+      this.surname,
+      this.birthday,
+      this.email,
+      this.picture,
+      this.dateRegister);
 
   final int id;
- // final String username;
+
+  // final String username;
   //final String password;
   final String name;
   final String surname;
