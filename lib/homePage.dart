@@ -21,7 +21,6 @@ class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    print("ID Login HomePage : ${id}");
     return _HomePage(id);
   }
 }
@@ -39,6 +38,7 @@ class _HomePage extends State {
 
   @override
   Widget build(BuildContext context) {
+    print("HomePage ID Login : ${id}");
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -49,7 +49,7 @@ class _HomePage extends State {
             actions: [
               IconButton(icon: Icon(Icons.exit_to_app), onPressed: () {}),
             ],
-            backgroundColor: Colors.teal[300],
+            backgroundColor: Colors.orange[600],
             bottom: TabBar(tabs: <Widget>[
               Tab(
                 text: "หน้าหลัก",
@@ -97,8 +97,29 @@ class _HomePage extends State {
                                 fontWeight: FontWeight.bold),
                           ),
                           currentAccountPicture: CircleAvatar(
-                            backgroundImage:
-                                MemoryImage(base64Decode(_userLogin.picture)),
+                            backgroundColor: Colors.teal[200],
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Center(
+                                    child: Text(
+                                      "${_userLogin.name[0]}",
+                                      style: TextStyle(fontSize: 40),
+                                    ),
+                                  ),
+                                ),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.memory(
+                                    base64Decode(_userLogin.picture),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           decoration: BoxDecoration(
                               image: DecorationImage(
@@ -107,12 +128,12 @@ class _HomePage extends State {
                         ),
                       ),
                       Container(
-                        color: Colors.white,
+                        color: Colors.blueGrey,
                         height: 500,
                         child: Column(
                           children: [
                             Card(
-                              color: Colors.teal[300],
+                              color: Colors.orange[600],
                               shadowColor: Colors.black,
                               child: ListTile(
                                 title: Text("MyProfile",
@@ -128,7 +149,7 @@ class _HomePage extends State {
                               ),
                             ),
                             Card(
-                              color: Colors.teal[300],
+                              color: Colors.orange[600],
                               shadowColor: Colors.black,
                               child: ListTile(
                                 title: Text("EditProfile",
@@ -143,7 +164,7 @@ class _HomePage extends State {
                               ),
                             ),
                             Card(
-                              color: Colors.teal[300],
+                              color: Colors.orange[600],
                               shadowColor: Colors.black,
                               child: ListTile(
                                 title: Text("Logout",

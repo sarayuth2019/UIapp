@@ -18,11 +18,9 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State {
-  UserLogin _userProfile;
-
   _Profile(this.id);
-
   final int id;
+  UserLogin _userProfile;
   String urlUser = "https://testheroku11111.herokuapp.com/User/";
   double ratingData = 2.5;
   double _rating;
@@ -36,7 +34,7 @@ class _Profile extends State {
 
     print("Profile ID : ${id}");
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blueGrey,
       body: FutureBuilder(
         future: getUserProfile(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -49,64 +47,62 @@ class _Profile extends State {
                 padding: const EdgeInsets.only(
                     left: 10, right: 10, top: 30, bottom: 30),
                 child: Card(
-                  color: Colors.teal[100],
+                  color: Colors.white,
                   shadowColor: Colors.black,
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding:
                             const EdgeInsets.only(left: 10, right: 10, top: 10),
-                        child: Container(
-                            color: Colors.white,
-                            child: Stack(
-                              children: <Widget>[
-                                Center(
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  imageProfile,
+                                  height: 220,
+                                  width: 370,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30),
+                              child: Center(
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.teal[200],
+                                  radius: 75,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.network(
-                                      imageProfile,
-                                      height: 220,
-                                      width: 370,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 30),
-                                  child: Center(
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.teal[200],
-                                      radius: 75,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(100),
-                                        child: Center(
-                                          child: Text(
-                                            "${_userProfile.name[0]}",
-                                            style: TextStyle(
-                                                fontSize: 85,
-                                                color: Colors.white),
-                                          ),
-                                        ),
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Center(
+                                      child: Text(
+                                        "${_userProfile.name[0]}",
+                                        style: TextStyle(
+                                            fontSize: 85,
+                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 30),
-                                  child: Center(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: Image.memory(
-                                        base64Decode(_userProfile.picture),
-                                        height: 150,
-                                        width: 150,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top: 30),
+                              child: Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.memory(
+                                    base64Decode(_userProfile.picture),
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
-                              ],
-                            )),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Container(
                         child: Column(
@@ -175,8 +171,9 @@ class _Profile extends State {
                           children: <Widget>[
                             RaisedButton(
                                 child: Text("ตกลง"),
-                                color: Colors.teal,
+                                color: Colors.orange[600],
                                 onPressed: () {}),
+                            SizedBox(width: 10,),
                             RaisedButton(
                                 child: Text("ยกเลิก"),
                                 onPressed: () {

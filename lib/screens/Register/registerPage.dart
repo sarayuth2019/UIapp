@@ -45,20 +45,22 @@ class _RegisterPage extends State {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new MaterialApp(
-      home: new Scaffold(
-        key: scaffoldKey,
-        appBar: new AppBar(
-          backgroundColor: Colors.teal,
-          title: new Text('Register'),
-        ),
-        body: new SingleChildScrollView(
-          child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
-              key: _key,
-              // ignore: deprecated_member_use
-              autovalidate: _checkData,
-              child: pageUI(),
+      home:  new SafeArea(
+        child: new Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.orange[600],
+            title: Text("Register"),
+          ),
+          key: scaffoldKey,
+          body: new SingleChildScrollView(
+            child: new Container(
+              margin: new EdgeInsets.all(15.0),
+              child: new Form(
+                key: _key,
+                // ignore: deprecated_member_use
+                autovalidate: _checkData,
+                child: pageUI(),
+              ),
             ),
           ),
         ),
@@ -169,7 +171,7 @@ class _RegisterPage extends State {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
-                color: Colors.teal,
+                color: Colors.orange[600],
                 onPressed: _sendToCheckText,
                 child: Text(
                   "สมัคสาชิก",
@@ -180,7 +182,7 @@ class _RegisterPage extends State {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: RaisedButton(
-                color: Colors.grey,
+                color: Colors.blueGrey,
                 onPressed: () {
                   Navigator.of(context).pop();
                 },

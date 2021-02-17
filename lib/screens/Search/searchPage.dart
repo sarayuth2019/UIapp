@@ -33,7 +33,7 @@ class _SearchPage extends State {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.blueGrey,
       body: Column(
         children: [
           Padding(

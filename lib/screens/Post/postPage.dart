@@ -21,18 +21,17 @@ class _PostPage extends State {
   _PostPage(this.id);
 
   final int id;
-
-  UserLogin _user;
   String _urlGetPost = "https://testheroku11111.herokuapp.com/Post/postList";
+  String urlUser = "https://testheroku11111.herokuapp.com/User/";
 
   @override
   // TODO: implement widget
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.blueGrey,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal[400],
+        backgroundColor: Colors.orange[600],
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Post(id)));
@@ -59,14 +58,25 @@ class _PostPage extends State {
                         child: Column(
                           children: [
                             ListTile(
-                              leading: CircleAvatar(backgroundColor: Colors.teal[200],
+                              leading: CircleAvatar(
+                                backgroundColor: Colors.teal[200],
                                 child: Stack(
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
                                       child: Center(
                                         child: Text(
-                                            "${snapshot.data[index].name_post[0]}${snapshot.data[index].surname_post[0]}"),
+                                            "${snapshot.data[index].name_post[0]}"),
+                                      ),
+                                    ),
+                                    ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(100),
+                                      child: Image.memory(
+                                        base64Decode(snapshot.data[index].picture_user),
+                                        height: 150,
+                                        width: 150,
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
                                   ],
@@ -74,9 +84,10 @@ class _PostPage extends State {
                               ),
                               title: Text(
                                   '${snapshot.data[index].name_post}  ${snapshot.data[index].surname_post}'),
-                              subtitle: Text(snapshot.data[index].datePost),
+                              subtitle:
+                                  Text("${snapshot.data[index].datePost}"),
                             ),
-                            Text(snapshot.data[index].textpost),
+                            Text("${snapshot.data[index].textPost}"),
                             SizedBox(
                               height: 10,
                             ),
@@ -85,13 +96,14 @@ class _PostPage extends State {
                               children: [
                                 RaisedButton(
                                   onPressed: () {
-                                    print('User ID : ${_user.id}');
+                                    print(
+                                        'User  : ${snapshot.data[index].picture_user}');
                                   },
                                   child: Text(
                                     'ถูกใจ',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  color: Colors.teal,
+                                  color: Colors.orange[600],
                                 ),
                                 SizedBox(
                                   width: 5,
@@ -102,7 +114,7 @@ class _PostPage extends State {
                                     'พูดคุย',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  color: Colors.teal,
+                                  color: Colors.orange[600],
                                 ),
                               ],
                             )
@@ -122,13 +134,20 @@ class _PostPage extends State {
     var _data = await http.get(_urlGetPost);
     var jsonDataPost = jsonDecode(utf8.decode(_data.bodyBytes));
     print('Connect Success !');
-
     var dataJsonPost = jsonDataPost['data'];
-
+    print(dataJsonPost);
     List<Post_data> post = [];
     for (var p in dataJsonPost) {
-      Post_data _post = Post_data(p["id"], p["name_post"], p["surname_post"],
-          p["textpost"], p["datePost"]);
+      Post_data _post = Post_data(
+          p['id'],
+          p['textPost'],
+          p['picturePost'],
+          p['datePost'],
+          p['name'],
+          p['surname'],
+          p['picture'],
+          p['user_id']);
+
       post.insert(0, _post);
     }
     print('Post length : ${post.length}');
@@ -138,11 +157,22 @@ class _PostPage extends State {
 
 class Post_data {
   Post_data(
-      this.id, this.name_post, this.surname_post, this.textpost, this.datePost);
+    this.id,
+    this.textPost,
+    this.picturePost,
+    this.datePost,
+    this.name_post,
+    this.surname_post,
+    this.picture_user,
+    this.user_id,
+  );
 
   final int id;
+  final String textPost;
+  final String picturePost;
+  final String datePost;
   final String name_post;
   final String surname_post;
-  final String textpost;
-  final String datePost;
+  final String picture_user;
+  final int user_id;
 }
