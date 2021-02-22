@@ -36,111 +36,107 @@ class _Login extends State {
     return Scaffold(
       backgroundColor: Colors.white,
       key: globalKey,
-      body: SafeArea(
-        child: Card(
-          child: Container(
-            color: Colors.blueGrey[600],
-            height: 700,
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
+      body: Container(
+        color: Colors.blueGrey[600],
+        height: 700,
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Stack(
                   children: <Widget>[
-                    Stack(
-                      children: <Widget>[
-                        // Stroked text as border.
-                        Text(
-                          "ECP Talk !",
-                          style: TextStyle(
-                            fontSize: 40,
-                            foreground: Paint()
-                              ..style = PaintingStyle.stroke
-                              ..strokeWidth = 6
-                              ..color = Colors.orange[600],
-                          ),
-                        ),
-                        // Solid text as fill.
-                        Text(
-                          "ECP Talk !",
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        border:
-                            Border.all(width: 2.0, color: Colors.orange[600]),
-                      ),
-                      child: TextField(
-                        controller: user,
-                        decoration: InputDecoration(
-                            hintText: "Username",
-                            contentPadding: EdgeInsets.all(10.0),
-                            border: InputBorder.none,
-                            icon: Icon(Icons.account_circle)),
+                    // Stroked text as border.
+                    Text(
+                      "ECP Shop !",
+                      style: TextStyle(
+                        fontSize: 40,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 6
+                          ..color = Colors.orange[600],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                        border:
-                            Border.all(width: 2.0, color: Colors.orange[600]),
-                      ),
-                      child: TextField(
-                        controller: pass,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            hintText: "Password",
-                            contentPadding: EdgeInsets.all(10.0),
-                            border: InputBorder.none,
-                            icon: Icon(Icons.vpn_key)),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 0.0, top: 5.0),
-                      child: RaisedButton(
-                        onPressed: _toLogin,
-                        child: Text("Login"),
-                        color: Colors.orange[600],
-                        textColor: Colors.white,
-                      ),
-                    ),
-                    Container(
-                        child: Text(
-                      "Don't have an account ?",
-                      style:
-                          TextStyle(color: Colors.blueAccent, fontSize: 15),
-                    )),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
-                      child: RaisedButton(
-                        onPressed: () {
-                          print('Go To PageRegister !');
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterPage()));
-                        },
-                        child: Text("Register"),
-                        color: Colors.white54,
-                        textColor: Colors.white,
+                    // Solid text as fill.
+                    Text(
+                      "ECP Shop !",
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.black54,
                       ),
                     ),
                   ],
                 ),
-              ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    border:
+                        Border.all(width: 2.0, color: Colors.orange[600]),
+                  ),
+                  child: TextField(
+                    controller: user,
+                    decoration: InputDecoration(
+                        hintText: "Username",
+                        contentPadding: EdgeInsets.all(10.0),
+                        border: InputBorder.none,
+                        icon: Icon(Icons.account_circle)),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 25.0, right: 25.0, bottom: 5.0, top: 5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    border:
+                        Border.all(width: 2.0, color: Colors.orange[600]),
+                  ),
+                  child: TextField(
+                    controller: pass,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        hintText: "Password",
+                        contentPadding: EdgeInsets.all(10.0),
+                        border: InputBorder.none,
+                        icon: Icon(Icons.vpn_key)),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 20.0, right: 20.0, bottom: 0.0, top: 5.0),
+                  child: RaisedButton(
+                    onPressed: _toLogin,
+                    child: Text("Login"),
+                    color: Colors.orange[600],
+                    textColor: Colors.white,
+                  ),
+                ),
+                Container(
+                    child: Text(
+                  "Don't have an account ?",
+                  style:
+                      TextStyle(color: Colors.blueAccent, fontSize: 15),
+                )),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: 20.0, right: 20.0, bottom: 0.0, top: 2.0),
+                  child: RaisedButton(
+                    onPressed: () {
+                      print('Go To PageRegister !');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()));
+                    },
+                    child: Text("Register"),
+                    color: Colors.white54,
+                    textColor: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
